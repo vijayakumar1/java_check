@@ -1,0 +1,28 @@
+---
+- hosts: localhost
+  user: vijay
+  become: yes
+  become_method: sudo
+  tasks:
+  - name: Check if java is installed
+    command: java -version
+    register: java_result
+    ignore_errors: True
+
+  - name: install java
+    apt: name=oracle-java8-installer state=latest
+    when: java_result is failed
+    
+  - name: checking git
+    command: git --version
+    register: git_result
+    ignore_errors: True
+
+
+  - name: install git
+    apt: name=git state=latest
+    when: git_result is failed
+
+  - debug:
+      msg: "Success - Java is installed"
+    when:  java_result is success
