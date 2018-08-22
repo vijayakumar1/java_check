@@ -1,0 +1,43 @@
+
+
+#Install Java
+####################
+sudo mkdir -p /opt/java
+cd /opt/java
+sudo cp ~/mydoc/soft/jdk-8u102-linux-x64.tar.gz .
+sudo tar -xvzf jdk-8u102-linux-x64.tar.gz
+
+# Create symlink
+sudo rm -f /opt/java/current-java
+sudo ln -s /opt/java/jdk1.8.0_102 /opt/java/current-java
+
+# Install Java with Alternatives
+cd /opt/java/current-java
+sudo update-alternatives --install /usr/bin/java java /opt/java/current-java/bin/java 2
+sudo update-alternatives --config java
+###Update the below ~/.bashrc with the below
+
+############ $CLASS_PATH
+CLASS_PATH="$CLASS_PATH"
+if ! [[ "$CLASS_PATH" =~ ^:*(.*:+)*\.{1}(:+.*)*$ ]]; then
+    CLASS_PATH="$CLASS_PATH":.
+fi
+if ! [[ "$CLASS_PATH" =~ ^:*(.*:+)*\.{2}(:+.*)*$ ]]; then
+    CLASS_PATH="$CLASS_PATH":..
+fi
+export CLASS_PATH
+############ $JAVA_HOME
+JAVA_HOME="$JAVA_HOME"
+if ! [[ "$JAVA_HOME" =~ ^:*(.*:+)*/opt/java/current-java{1}(:+.*)*$ ]]; then
+    JAVA_HOME="$JAVA_HOME":/opt/java/current-java
+fi
+export JAVA_HOME
+############ $PATH
+#  this appears to work for me, if you encounter issues you could
+# simply hard-code $JAVA_HOME/bin into the PATH var
+PATH="$PATH"
+regex="^:*(.*:+)*($JAVA_HOME/bin){1}(:+.*)*$"
+if ! [[ "$PATH" =~ $regex ]]; then
+    PATH="$PATH:$JAVA_HOME/bin"
+fi
+export PATH
