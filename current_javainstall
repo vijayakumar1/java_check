@@ -41,3 +41,24 @@ if ! [[ "$PATH" =~ $regex ]]; then
     PATH="$PATH:$JAVA_HOME/bin"
 fi
 export PATH
+-----------------------------------------------------------------------------------------
+---
+- hosts:ds_53
+  user: acsapp
+  tasks:
+   tasks:
+  - name: Check if java is installed
+    command: java --version
+    register: java_result
+    ignore_errors: True
+    name: mkdir
+    shell: cd /appserver/ ;mkdir java ; chmod 777 java
+    when: java_result is failed
+    name:
+    copy: src={{item}} dest=/appserver/java
+    name: copy script file
+    copy: src={{item}} dest=/appserver/java
+    name: runscript 
+    shell: cd /appserver/java/ ; sh java.sh ; sleep 3
+
+
