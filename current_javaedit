@@ -1,0 +1,49 @@
+mkdir -p /backup/java
+cd /backup/java
+get java
+rm -f /backup/java/current-java
+ln -s /backup/java/jdk1.8.0_102 /backup/java/current-java
+
+cd /backup/java/current-java
+sudo update-alternatives --install /usr/bin/java java /backup/java/current-java/bin/java 2
+update-alternatives --config java
+
+
+vi ~/.bashrc
+
+
+############ $CLASS_PATH
+CLASS_PATH="$CLASS_PATH"
+if ! [[ "$CLASS_PATH" =~ ^:*(.*:+)*\.{1}(:+.*)*$ ]]; then
+    CLASS_PATH="$CLASS_PATH":.
+fi
+if ! [[ "$CLASS_PATH" =~ ^:*(.*:+)*\.{2}(:+.*)*$ ]]; then
+    CLASS_PATH="$CLASS_PATH":..
+fi
+export CLASS_PATH
+############ $JAVA_HOME
+JAVA_HOME="$JAVA_HOME"
+if ! [[ "$JAVA_HOME" =~ ^:*(.*:+)*/backup/java/current-java{1}(:+.*)*$ ]]; then
+    JAVA_HOME="$JAVA_HOME":/backup/java/current-java
+fi
+export JAVA_HOME
+############ $PATH
+#  this appears to work for me, if you encounter issues you could
+# simply hard-code $JAVA_HOME/bin into the PATH var
+PATH="$PATH"
+regex="^:*(.*:+)*($JAVA_HOME/bin){1}(:+.*)*$"
+if ! [[ "$PATH" =~ $regex ]]; then
+    PATH="$PATH:$JAVA_HOME/bin"
+fi
+export PATH
+-------------------------------------------------------------------------------------------
+export echo JAVA_HOME=/backup/softwares/java/current-java
+
+echo $JAVA_HOME
+
+
+
+
+
+
+
