@@ -1,0 +1,41 @@
+---
+- hosts: localhost
+  user: vijay
+  tasks:
+  - name: Fetch Java version
+    shell: java -version
+    register: java_version
+
+  - name: the java version    
+    debug: var=java_version
+
+  - name: hhh
+    shell: mkdir -p /backup/java 
+    when: java_version is failed
+
+  - name: get the file
+    copy: src="{{item}}" dest=/backup/java
+    with_fileglob:
+    - /home/vijay/Downloads/jdk-8u181-linux-i586.tar.gz
+ 
+  - name: untar the file
+    shell: cd /backup/java/ ; tar -xvf jdk-8u181-linux-i586.tar.gz
+ 
+  - name: create symlink
+    command: ln -s /backup/java/jdk1.8.0_181 /backup/java/current-java
+ 
+  - name: set java
+    command: sudo update-alternatives --install /usr/bin/java java /backup/java/current-java/bin/java 0
+ 
+  - name: edit the ~/.bashrc file
+    shell: cd /backup/java ; cat java_path >> ~/.bashrc
+ 
+  - name: export java
+    shell: export echo JAVA_HOME=/backup/java/current-java
+ 
+  - name: checking java version 
+    shell: echo $JAVA_HOME
+    register: java.out
+ 
+  - name: show the output
+    debug: var=java.out
