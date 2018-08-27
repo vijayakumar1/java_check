@@ -1,0 +1,9 @@
+acs2-api-1.0-SNAPSHOT-capsule.jar*
+drwxrwx--- 2 acsapp acsapp     4096 Aug 27 16:02 bkp/
+drwxrwx--- 4 acsapp acsapp     4096 Aug 27 13:58 config/
+-rwxrwx--- 1 acsapp acsapp        0 Aug 27 13:58 flow.json*
+-rw-rw---- 1 acsapp acsapp    13764 Aug 27 16:03 log-check.log
+drwxrwx--- 2 acsapp acsapp     4096 Aug 27 16:02 logs/
+-rwxrwx--- 1 acsapp acsapp     2209 Aug 27 13:58 run-java-app.sh*
+-rwxrwx--- 1 acsapp acsapp        0 Aug 27 13:58 stack.txt*
+drwxrwx--- 3 acsapp acsapp     4096 Aug 27 16:03 .vertx/
